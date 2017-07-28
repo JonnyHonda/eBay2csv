@@ -1,7 +1,12 @@
 #!/bin/bash
 args=("$@")
 # Fetch in the config file
-. ./eBay2csv.cfg
+if [ -f ./eBay2csv.cfg ]; then
+    . ./eBay2csv.cfg
+else
+    echo "Can't find eBay2csv.cfg file does it exist?"
+    exit
+fi
 
 if [ $# = 2 ]; then 
     searchTerms=$2
