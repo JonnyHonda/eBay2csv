@@ -19,15 +19,17 @@ This script creates a lot of temporary files as its going along, these will be c
 
 ./eBay2csv temp.csv "superdream, CB250N, CN400N" it will delete your csv when it's finished cleaning up.
 
-The config entries
-buyerPostalCode  The location used to sort by Distance Nearest
+The config entries:
 
-GlobalId=EBAY-GB  The eBay marketplace you wish to search
-entriesPerPage=100  The number of items to return in each page, this is used by the script to split up large results, 100 is the max, making it smaller won't really help
+buyerPostalCode -  The location used to sort by Distance Nearest
 
-Valid values to use are BestMatch, CurrentPriceHighest, DistanceNearest, EndTimeSoonest, PricePlusShippingHighest, PricePlusShippingLowest
+GlobalId - The eBay marketplace you wish to search
+
+entriesPerPage -  The number of items to return in each page, this is used by the script to split up large results, 100 is the max, making it smaller won't really help
+
+SortOrder - Valid values to use are BestMatch, CurrentPriceHighest, DistanceNearest, EndTimeSoonest, PricePlusShippingHighest, PricePlusShippingLowest
+
 DistanceNearest requiries that a buyerPostalCode is set
 
-sortOrder=BestMatch
 
 This was written for the Mac shell so may need tweaking for linux and windows
