@@ -10,6 +10,7 @@ fi
 
 if [ $# = 2 ]; then 
     searchTerms=$2
+    locationString=""
     echo "Search terms: $searchTerms"
     # Replace white spaces, this should really be an html entities replace really
     searchTerms="${searchTerms// /%20}"
@@ -17,9 +18,9 @@ if [ $# = 2 ]; then
         if [ -z "$buyerPostalCode" ]; then
             echo "Sorting by Distance Nearest requires buyerPostalCode to be set in the config"
             exit
+        else
+            locationString = "&buyerPostalCode=$buyerPostalCode"
         fi
-    else
-        locationString = "&buyerPostalCode=$buyerPostalCode"
     fi
     buyerPostalCode="${buyerPostalCode// /%20}"
     echo "Fetching initial information from eBay..."
@@ -43,7 +44,7 @@ if [ $# = 2 ]; then
     cat header.csv > $1
     echo "Fetching data from eBay..." 
     for i in $(seq 1 $totalPages); 
-	    do curl -s "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&GLOBAL-ID=$GlobalId&SECURITY-APPNAME=$ebayAppKey&keywords=$searchTerms&itemFilter(0).name=ListingType&itemFilter(0).value=FixedPrice&paginationInput.entriesPerPage=$entriesPerPage&paginationInput.pageNumber=$i&sortOrder=$sortOrder&RESPONSE-DATA-FORMAT=XML&buyerPostalCode=$buyerPostalCode" > temp$i.xml;
+	    do curl -s "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&GLOBAL-ID=$GlobalId&SECURITY-APPNAME=$ebayAppKey&keywords=$searchTerms&itemFilter(0).name=ListingType&itemFilter(0).value=FixedPrice&paginationInput.entriesPerPage=$entriesPerPage&paginationInput.pageNumber=$i&sortOrder=$sortOrder&RESPONSE-DATA-FORMAT=XML$locationString" > temp$i.xml;
 	    echo "Fetching data from page $i"
 	    sed -i.bak 's/xmlns="http:\/\/www.ebay.com\/marketplace\/search\/v1\/services"//g' temp$i.xml;
 	    xsltproc -o temp$i.csv ebay-csv.xslt temp$i.xml
