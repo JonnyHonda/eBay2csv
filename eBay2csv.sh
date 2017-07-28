@@ -14,7 +14,7 @@ if [ $# = 2 ]; then
     # Replace white spaces, this should really be an html entities replace really
     searchTerms="${searchTerms// /%20}"
     echo "Fetching initial information from eBay..."
-    curl -s "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&GLOBAL-ID=EBAY-GB&SECURITY-APPNAME=$ebayAppKey&keywords=$searchTerms&itemFilter(0).name=ListingType&itemFilter(0).value=FixedPrice&paginationInput.entriesPerPage=100&paginationInput.pageNumber=1&sortOrder=BestMatch&RESPONSE-DATA-FORMAT=XML" > temp1.xml;
+    curl -s "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&GLOBAL-ID=$GlobalId&SECURITY-APPNAME=$ebayAppKey&keywords=$searchTerms&itemFilter(0).name=ListingType&itemFilter(0).value=FixedPrice&paginationInput.entriesPerPage=$entriesPerPage&paginationInput.pageNumber=1&sortOrder=$sortOrder&RESPONSE-DATA-FORMAT=XML" > temp1.xml;
     sed -i.bak 's/xmlns="http:\/\/www.ebay.com\/marketplace\/search\/v1\/services"//g' temp1.xml;
     totalPages=`xmllint --xpath '/findItemsAdvancedResponse/paginationOutput/totalPages/text()' temp1.xml`
     totalEntries=`xmllint --xpath '/findItemsAdvancedResponse/paginationOutput/totalEntries/text()' temp1.xml`
@@ -29,7 +29,7 @@ if [ $# = 2 ]; then
     cat header.csv > $1
     echo "Fetching data from eBay..." 
     for i in $(seq 1 $totalPages); 
-	    do curl -s "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&GLOBAL-ID=EBAY-GB&SECURITY-APPNAME=$ebayAppKey&keywords=$searchTerms&itemFilter(0).name=ListingType&itemFilter(0).value=FixedPrice&paginationInput.entriesPerPage=100&paginationInput.pageNumber=$i&sortOrder=BestMatch&RESPONSE-DATA-FORMAT=XML" > temp$i.xml;
+	    do curl -s "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&GLOBAL-ID=$GlobalId&SECURITY-APPNAME=$ebayAppKey&keywords=$searchTerms&itemFilter(0).name=ListingType&itemFilter(0).value=FixedPrice&paginationInput.entriesPerPage=$entriesPerPage&paginationInput.pageNumber=$i&sortOrder=$sortOrder&RESPONSE-DATA-FORMAT=XML" > temp$i.xml;
 	    echo "Fetching data from page $i"
 	    sed -i.bak 's/xmlns="http:\/\/www.ebay.com\/marketplace\/search\/v1\/services"//g' temp$i.xml;
 	    xsltproc -o temp$i.csv ebay-csv.xslt temp$i.xml
