@@ -11,7 +11,7 @@ usage:
 eBay2csv.sh filename.csv "Some Sarch Terms"
 
 eg:
-./eBay2csv superdream.csv "superdream, CB250N, CN400N"
+./eBay2csv.sh superdream.csv "superdream, CB250N, CN400N"
 
 
 Limitations:
