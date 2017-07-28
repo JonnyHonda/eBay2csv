@@ -19,7 +19,9 @@ if [ $# = 2 ]; then
             echo "Sorting by Distance Nearest requires buyerPostalCode to be set in the config"
             exit
         else
-            locationString = "&buyerPostalCode=$buyerPostalCode"
+            buyerPostalCode="${buyerPostalCode// /%20}"
+            locationString="&buyerPostalCode=$buyerPostalCode"
+            echo "$locationString"
         fi
     fi
     buyerPostalCode="${buyerPostalCode// /%20}"
