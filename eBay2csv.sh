@@ -18,6 +18,8 @@ if [ $# = 2 ]; then
             echo "Sorting by Distance Nearest requires buyerPostalCode to be set in the config"
             exit
         fi
+    else
+        locationString = "&buyerPostalCode=$buyerPostalCode"
     fi
     buyerPostalCode="${buyerPostalCode// /%20}"
     echo "Fetching initial information from eBay..."
