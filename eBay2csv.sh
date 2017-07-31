@@ -8,6 +8,12 @@ else
     exit
 fi
 
+# Checking that the xslt file is available
+if [ ! -f "$xslTemplate" ]; then
+    echo "Can't find the required xsl template file $xslTemplate"
+    exit
+fi
+
 if [ $# = 2 ]; then 
     searchTerms=$2
     locationString=""
