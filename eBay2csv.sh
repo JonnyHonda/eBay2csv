@@ -63,7 +63,7 @@ if [ $# = 2 ]; then
 
     echo "Fetching data from eBay..." 
     for i in $(seq 1 $totalPages); 
-	    do curl -s "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&GLOBAL-ID=$GlobalId&SECURITY-APPNAME=$ebayAppKey&keywords=$searchTerms&itemFilter(0).name=ListingType&itemFilter(0).value=FixedPrice&paginationInput.entriesPerPage=$entriesPerPage&paginationInput.pageNumber=$i&sortOrder=$sortOrder&RESPONSE-DATA-FORMAT=XML$locationString" > temp$i.xml;
+	    do curl -s "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsAdvanced&SERVICE-VERSION=1.0.0&GLOBAL-ID=$GlobalId&SECURITY-APPNAME=$ebayAppKey&keywords=$searchTerms&itemFilter(0).name=ListingType&itemFilter(0).value=FixedPrice&outputSelector=SellerInfo&paginationInput.entriesPerPage=$entriesPerPage&paginationInput.pageNumber=$i&sortOrder=$sortOrder&RESPONSE-DATA-FORMAT=XML$locationString" > temp$i.xml;
 	    echo "Fetching data from page $i"
 	    
         # Had some problems with XML name spacing, the quickest workaround for me was to remove the xmlns definition
