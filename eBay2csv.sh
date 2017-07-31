@@ -73,7 +73,7 @@ if [ $# = 2 ]; then
 	    sed -i.bak 's/&quot;//g' temp$i.xml;
 
         # Do the translation
-        xsltproc -o temp$i.csv ebay-csv.xslt temp$i.xml
+        xsltproc -o temp$i.csv $xslTemplate temp$i.xml
 
         # Appent the csv page data to the csv file
 	    cat temp$i.csv >> $1
