@@ -1,11 +1,23 @@
 #!/bin/bash
 args=("$@")
-# Fetch in the config file
-if [ -f ./eBay2csv.cfg ]; then
-    . ./eBay2csv.cfg
+if [ ! $# = 3 ]; then
+    # Fetch in the config file
+    if [ -f ./eBay2csv.cfg ]; then
+        . ./eBay2csv.cfg
+    else
+        echo "Can't find eBay2csv.cfg file does it exist?"
+        exit
+    fi
 else
-    echo "Can't find eBay2csv.cfg file does it exist?"
-    exit
+        # Fetch in the config file
+    echo "Looking for user config file $3"
+    if [ -f $3 ]; then
+        . $3
+    else
+        echo "Can't find config file $3 file does it exist?"
+        exit
+    fi
+
 fi
 
 # Checking that the xslt file is available
@@ -14,7 +26,7 @@ if [ ! -f "$xslTemplate" ]; then
     exit
 fi
 
-if [ $# = 2 ]; then 
+if [ $# > 1 ]; then 
     searchTerms=$2
     locationString=""
     echo "Search terms: $searchTerms"
@@ -87,6 +99,6 @@ if [ $# = 2 ]; then
 else
     # print out some basic usage intructions
 	echo "usage:"
-	echo "get-listings.sh filename.csv \"Some Search Terms\""
+	echo "get-listings.sh filename.csv \"Some Search Terms\" [config-file.cfg]"
 fi
 
